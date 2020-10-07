@@ -2,72 +2,14 @@
 #include "Animation.h"
 #include "Entity.h"
 #include "Asteroid.h"
+#include "Bullet.h"
+#include "Player.h"
 #include <SFML/Graphics.hpp>
 #include <ctime>
 #include <list>
 #include <cmath>
 #include <cstdlib>
 using namespace sf;
-
-
-
-
-
-class bullet: public Entity
-{
-   public:
-   bullet()
-   {
-     name="bullet";
-   }
-
-   void  update()
-   {
-     dx=std::cos(angle*DEGTORAD)*6;
-     dy=std::sin(angle*DEGTORAD)*6;
-     // angle+=rand()%7-3;  /*try this*/
-     x+=dx;
-     y+=dy;
-
-     if (x>W || x<0 || y>H || y<0) life=0;
-   }
-
-};
-
-
-class player: public Entity
-{
-   public:
-   bool thrust;
-
-   player()
-   {
-     name="player";
-   }
-
-   void update()
-   {
-     if (thrust)
-      { dx+=std::cos(angle*DEGTORAD)*0.2;
-        dy+=std::sin(angle*DEGTORAD)*0.2; }
-     else
-      { dx*=0.99;
-        dy*=0.99; }
-
-    int maxSpeed=15;
-    float speed = std::sqrt(dx*dx+dy*dy);
-    if (speed>maxSpeed)
-     { dx *= maxSpeed/speed;
-       dy *= maxSpeed/speed; }
-
-    x+=dx;
-    y+=dy;
-
-    if (x>W) x=0; if (x<0) x=W;
-    if (y>H) y=0; if (y<0) y=H;
-   }
-
-};
 
 
 bool isCollide(Entity *a,Entity *b)
@@ -117,7 +59,7 @@ int main()
       entities.push_back(a);
     }
 
-    player *p = new player();
+    Player *p = new Player();
     p->settings(sPlayer,200,200,0,20);
     entities.push_back(p);
 
@@ -133,7 +75,7 @@ int main()
             if (event.type == Event::KeyPressed)
              if (event.key.code == Keyboard::Space)
               {
-                bullet *b = new bullet();
+                Bullet *b = new Bullet();
                 b->settings(sBullet,p->x,p->y,p->angle,10);
                 entities.push_back(b);
               }
