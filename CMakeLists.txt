@@ -9,6 +9,7 @@ set(
 	ASTEROID_SOURCES
 	AsteroidsRefactored.cpp
 	Animation.cpp
+	Entity.cpp
 )
 
 add_executable(AsteroidsRefactored ${ASTEROID_SOURCES})
