@@ -8,6 +8,7 @@ find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 set(
 	ASTEROID_SOURCES
 	AsteroidsRefactored.cpp
+	Asteroid.cpp
 	Animation.cpp
 	Entity.cpp
 )

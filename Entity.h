@@ -7,11 +7,10 @@
 
 #ifndef ENTITY_H_
 #define ENTITY_H_
-
+#include "Common.h"
 #include "Animation.h"
 #include <string>
-
-const float DEGTORAD = 0.017453f;
+#include <SFML/Graphics.hpp>
 
 class Entity
 {

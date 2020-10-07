@@ -1,6 +1,7 @@
+#include "Common.h"
 #include "Animation.h"
 #include "Entity.h"
-
+#include "Asteroid.h"
 #include <SFML/Graphics.hpp>
 #include <ctime>
 #include <list>
@@ -8,30 +9,8 @@
 #include <cstdlib>
 using namespace sf;
 
-const int W = 1200;
-const int H = 800;
 
 
-class asteroid: public Entity
-{
-   public:
-   asteroid()
-   {
-     dx=rand()%8-4;
-     dy=rand()%8-4;
-     name="asteroid";
-   }
-
-   void update()
-   {
-     x+=dx;
-     y+=dy;
-
-     if (x>W) x=0;  if (x<0) x=W;
-     if (y>H) y=0;  if (y<0) y=H;
-   }
-
-};
 
 
 class bullet: public Entity
@@ -133,7 +112,7 @@ int main()
 
     for(int i=0;i<15;i++)
     {
-      asteroid *a = new asteroid();
+      Asteroid *a = new Asteroid();
       a->settings(sRock, rand()%W, rand()%H, rand()%360, 25);
       entities.push_back(a);
     }
@@ -184,7 +163,7 @@ int main()
             for(int i=0;i<2;i++)
             {
              if (a->R==15) continue;
-             Entity *e = new asteroid();
+             Entity *e = new Asteroid();
              e->settings(sRock_small,a->x,a->y,rand()%360,15);
              entities.push_back(e);
             }
@@ -217,7 +196,7 @@ int main()
 
     if (rand()%150==0)
      {
-       asteroid *a = new asteroid();
+       Asteroid *a = new Asteroid();
        a->settings(sRock, 0,rand()%H, rand()%360, 25);
        entities.push_back(a);
      }
