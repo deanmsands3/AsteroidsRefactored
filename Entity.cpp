@@ -7,15 +7,13 @@
 #include "Entity.h"
 
 
-Entity::Entity()
-{
+Entity::Entity(){
 	life=1;
 }
 
 Entity::~Entity(){};
 
-void Entity::settings(Animation &a,int X,int Y,float Angle, int radius)
-{
+void Entity::settings(Animation &a,int X,int Y,float Angle, int radius){
 	anim = a;
 	x=X; y=Y;
 	angle = Angle;
@@ -24,8 +22,7 @@ void Entity::settings(Animation &a,int X,int Y,float Angle, int radius)
 
 void Entity::update(){};
 
-void Entity::draw(sf::RenderWindow &app)
-{
+void Entity::draw(sf::RenderWindow &app){
 	anim.sprite.setPosition(x,y);
 	anim.sprite.setRotation(angle+90);
 	app.draw(anim.sprite);
@@ -37,3 +34,8 @@ void Entity::draw(sf::RenderWindow &app)
 	//app.draw(circle);
 }
 
+bool Entity::collidesWith(const Entity* that) const{
+	return (that->x - this->x)*(that->x - this->x)+
+			(that->y - this->y)*(that->y - this->y)<
+			(this->R + that->R)*(this->R + that->R);
+}

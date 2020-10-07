@@ -12,14 +12,6 @@
 using namespace sf;
 
 
-bool isCollide(Entity *a,Entity *b)
-{
-	return (b->x - a->x)*(b->x - a->x)+
-			(b->y - a->y)*(b->y - a->y)<
-			(a->R + b->R)*(a->R + b->R);
-}
-
-
 int main()
 {
 	std::srand(std::time(0));
@@ -91,7 +83,7 @@ int main()
 			for(auto b:entities)
 			{
 				if (a->name=="asteroid" && b->name=="bullet")
-					if ( isCollide(a,b) )
+					if ( a->collidesWith(b) )
 					{
 						a->life=false;
 						b->life=false;
@@ -113,7 +105,7 @@ int main()
 					}
 
 				if (a->name=="player" && b->name=="asteroid")
-					if ( isCollide(a,b) )
+					if ( a->collidesWith(b) )
 					{
 						b->life=false;
 
