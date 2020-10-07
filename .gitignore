@@ -1,0 +1,8 @@
+.project
+.cproject
+build/
+*.o
+*.obj
+*.exe
+*.pch
+
