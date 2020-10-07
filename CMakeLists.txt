@@ -5,6 +5,12 @@ project (AsteroidsRefactored)
 #Add required packages
 find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 
-add_executable(AsteroidsRefactored AsteroidsRefactored.cpp)
+set(
+	ASTEROID_SOURCES
+	AsteroidsRefactored.cpp
+	Animation.cpp
+)
+
+add_executable(AsteroidsRefactored ${ASTEROID_SOURCES})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC sfml-graphics sfml-audio)
