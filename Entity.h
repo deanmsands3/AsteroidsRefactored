@@ -14,10 +14,16 @@
 
 class Entity
 {
+protected:
+	std::string name;
+	inline void __setVelocity(float new_dx, float new_dy){
+		dx = new_dx;
+		dy = new_dy;
+	}
+
 public:
 	float x,y,dx,dy,R,angle;
 	bool life;
-	std::string name;
 	Animation anim;
 
 	Entity();
@@ -31,6 +37,10 @@ public:
 	void draw(sf::RenderWindow &app);
 
 	bool collidesWith(const Entity *that) const;
+	const Animation& getAnim() const;
+	bool isAlive() const;
+	void setLife(bool life);
+	const std::string& getName() const;
 };
 
 

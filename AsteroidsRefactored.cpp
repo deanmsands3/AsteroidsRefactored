@@ -4,6 +4,7 @@
 #include "Asteroid.h"
 #include "Bullet.h"
 #include "Player.h"
+#include "Explosion.h"
 #include <SFML/Graphics.hpp>
 #include <ctime>
 #include <list>
@@ -82,15 +83,14 @@ int main()
 		for(auto a:entities)
 			for(auto b:entities)
 			{
-				if (a->name=="asteroid" && b->name=="bullet")
+				if (a->getName()=="asteroid" && b->getName()=="bullet")
 					if ( a->collidesWith(b) )
 					{
-						a->life=false;
-						b->life=false;
+						a->setLife(false);
+						b->setLife(false);
 
-						Entity *e = new Entity();
+						Entity *e = new Explosion();
 						e->settings(sExplosion,a->x,a->y);
-						e->name="explosion";
 						entities.push_back(e);
 
 
@@ -104,14 +104,13 @@ int main()
 
 					}
 
-				if (a->name=="player" && b->name=="asteroid")
+				if (a->getName()=="player" && b->getName()=="asteroid")
 					if ( a->collidesWith(b) )
 					{
-						b->life=false;
+						b->setLife(false);
 
-						Entity *e = new Entity();
+						Entity *e = new Explosion();
 						e->settings(sExplosion_ship,a->x,a->y);
-						e->name="explosion";
 						entities.push_back(e);
 
 						p->settings(sPlayer,W/2,H/2,0,20);
@@ -125,8 +124,8 @@ int main()
 
 
 		for(auto e:entities)
-			if (e->name=="explosion")
-				if (e->anim.isEnd()) e->life=0;
+			if (e->getName()=="explosion")
+				if (e->anim.isEnd()) e->setLife(false);
 
 		if (rand()%150==0)
 		{
@@ -142,7 +141,7 @@ int main()
 			e->update();
 			e->anim.update();
 
-			if (e->life==false) {i=entities.erase(i); delete e;}
+			if (e->isAlive()==false) {i=entities.erase(i); delete e;}
 			else i++;
 		}
 

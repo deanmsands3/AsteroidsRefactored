@@ -11,6 +11,7 @@ set(
 	Player.cpp
 	Bullet.cpp
 	Asteroid.cpp
+	Explosion.cpp
 	Animation.cpp
 	Entity.cpp
 )

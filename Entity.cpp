@@ -39,3 +39,19 @@ bool Entity::collidesWith(const Entity* that) const{
 			(that->y - this->y)*(that->y - this->y)<
 			(this->R + that->R)*(this->R + that->R);
 }
+
+const Animation& Entity::getAnim() const {
+	return anim;
+}
+
+bool Entity::isAlive() const {
+	return life;
+}
+
+void Entity::setLife(bool life) {
+	this->life = life;
+}
+
+const std::string& Entity::getName() const {
+	return name;
+}
