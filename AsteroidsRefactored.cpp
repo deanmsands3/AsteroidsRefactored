@@ -10,6 +10,7 @@
 #include <list>
 #include <cmath>
 #include <cstdlib>
+#include <memory>
 using namespace sf;
 
 
@@ -43,16 +44,16 @@ int main()
 	Animation sExplosion_ship(t7, 0,0,192,192, 64, 0.5);
 
 
-	std::list<Entity*> entities;
+	std::list<std::shared_ptr<Entity>> entities;
 
 	for(int i=0;i<15;i++)
 	{
-		Asteroid *a = new Asteroid();
-		a->settings(sRock, rand()%W, rand()%H, rand()%360, 25);
+		std::shared_ptr<Asteroid> a = std::make_shared<Asteroid>();
+		a->settings(sRock, rand()%W, rand()%H, rand()%360, 25.0);
 		entities.push_back(a);
 	}
 
-	Player *p = new Player();
+	std::shared_ptr <Player> p = std::make_shared <Player>();
 	p->settings(sPlayer,200,200,0,20);
 	entities.push_back(p);
 
@@ -68,14 +69,14 @@ int main()
 			if (event.type == Event::KeyPressed)
 				if (event.key.code == Keyboard::Space)
 				{
-					Bullet *b = new Bullet();
-					b->settings(sBullet,p->x,p->y,p->angle,10);
+					std::shared_ptr <Bullet> b = std::make_shared <Bullet>();
+					b->settings(sBullet, p->x, p->y, p->angle,10.0);
 					entities.push_back(b);
 				}
 		}
 
-		if (Keyboard::isKeyPressed(Keyboard::Right)) p->angle+=3;
-		if (Keyboard::isKeyPressed(Keyboard::Left))  p->angle-=3;
+		if (Keyboard::isKeyPressed(Keyboard::Right)) p->angle += 3.0;
+		if (Keyboard::isKeyPressed(Keyboard::Left))  p->angle -= 3.0;
 		if (Keyboard::isKeyPressed(Keyboard::Up)) p->thrust=true;
 		else p->thrust=false;
 
@@ -84,12 +85,12 @@ int main()
 			for(auto b:entities)
 			{
 				if (a->getName()=="asteroid" && b->getName()=="bullet")
-					if ( a->collidesWith(b) )
+					if ( a->collidesWith(*b) )
 					{
 						a->setLife(false);
 						b->setLife(false);
 
-						Entity *e = new Explosion();
+						std::shared_ptr <Explosion> e = std::make_shared<Explosion>();
 						e->settings(sExplosion,a->x,a->y);
 						entities.push_back(e);
 
@@ -97,23 +98,23 @@ int main()
 						for(int i=0;i<2;i++)
 						{
 							if (a->R==15) continue;
-							Entity *e = new Asteroid();
-							e->settings(sRock_small,a->x,a->y,rand()%360,15);
+							std::shared_ptr<Asteroid> a = std::make_shared<Asteroid>();
+							e->settings(sRock_small, a->x, a->y, rand()%360, 15.0);
 							entities.push_back(e);
 						}
 
 					}
 
 				if (a->getName()=="player" && b->getName()=="asteroid")
-					if ( a->collidesWith(b) )
+					if ( a->collidesWith(*b) )
 					{
 						b->setLife(false);
 
-						Entity *e = new Explosion();
-						e->settings(sExplosion_ship,a->x,a->y);
+						std::shared_ptr <Explosion> e = std::make_shared<Explosion>();
+						e->settings(sExplosion_ship, a->x, a->y);
 						entities.push_back(e);
 
-						p->settings(sPlayer,W/2,H/2,0,20);
+						p->settings(sPlayer, W/2, H/2, 0, 20.0);
 						p->dx=0; p->dy=0;
 					}
 			}
@@ -129,19 +130,19 @@ int main()
 
 		if (rand()%150==0)
 		{
-			Asteroid *a = new Asteroid();
-			a->settings(sRock, 0,rand()%H, rand()%360, 25);
+			std::shared_ptr<Asteroid> a = std::make_shared<Asteroid>();
+			a->settings(sRock, 0,rand()%H, rand()%360, 25.0);
 			entities.push_back(a);
 		}
 
 		for(auto i=entities.begin();i!=entities.end();)
 		{
-			Entity *e = *i;
+			std::shared_ptr <Entity> e = *i;
 
 			e->update();
 			e->anim.update();
 
-			if (e->isAlive()==false) {i=entities.erase(i); delete e;}
+			if (e->isAlive()==false) {i=entities.erase(i);}
 			else i++;
 		}
 

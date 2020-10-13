@@ -30,13 +30,13 @@ public:
 
 	virtual ~Entity();
 
-	void settings(Animation &a,int X,int Y,float Angle=0,int radius=1);
+	void settings(Animation &a, int X, int Y, float Angle=0, float radius=1.0);
 
 	virtual void update();
 
 	void draw(sf::RenderWindow &app);
 
-	bool collidesWith(const Entity *that) const;
+	bool collidesWith(const Entity &that) const;
 	const Animation& getAnim() const;
 	bool isAlive() const;
 	void setLife(bool life);

@@ -13,7 +13,7 @@ Entity::Entity(){
 
 Entity::~Entity(){};
 
-void Entity::settings(Animation &a,int X,int Y,float Angle, int radius){
+void Entity::settings(Animation &a,int X,int Y,float Angle, float radius){
 	anim = a;
 	x=X; y=Y;
 	angle = Angle;
@@ -34,10 +34,12 @@ void Entity::draw(sf::RenderWindow &app){
 	//app.draw(circle);
 }
 
-bool Entity::collidesWith(const Entity* that) const{
-	return (that->x - this->x)*(that->x - this->x)+
-			(that->y - this->y)*(that->y - this->y)<
-			(this->R + that->R)*(this->R + that->R);
+bool Entity::collidesWith(const Entity &that) const{
+	return (
+		(that.x - x)*(that.x - x)+
+		(that.y - y)*(that.y - y)<
+		(that.R + R)*(that.R + R)
+	);
 }
 
 const Animation& Entity::getAnim() const {
