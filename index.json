@@ -1,0 +1,94 @@
+{
+    "Textures":{
+    	"spaceship":"images/spaceship.png",
+        "background":"images/background.jpg",
+        "explosion_C":"images/explosions/type_C.png",
+        "rock":"images/rock.png",
+        "fire_blue":"images/fire_blue.png",
+        "rock_small":"images/rock_small.png",
+        "explosion_B":"images/explosions/type_B.png"
+    },
+    "Animations":{
+        "Explosion":{
+            "texture":"explosion_C",
+            "x": 0,
+            "y": 0,
+            "w": 256,
+            "h": 256,
+            "count": 48,
+            "speed": 0.5
+        },
+        "Rock":{
+            "texture":"rock",
+            "x": 0,
+            "y": 0,
+            "w": 64,
+            "h": 64,
+            "count": 16,
+            "speed": 0.2
+        },
+        "Rock_Small":{
+            "texture":"rock_small",
+            "x": 0,
+            "y": 0,
+            "w": 64,
+            "h": 64,
+            "count": 16,
+            "speed": 0.2
+        },
+        "Bullet":{
+            "texture":"fire_blue",
+            "x": 0,
+            "y": 0,
+            "w": 32,
+            "h": 64,
+            "count": 16,
+            "speed": 0.8
+        },
+        "Player":{
+            "texture":"spaceship",
+            "x": 40,
+            "y": 0,
+            "w": 40,
+            "h": 40,
+            "count": 1,
+            "speed": 0.0
+        },
+        "Player_Go":{
+            "texture":"spaceship",
+            "x": 40,
+            "y": 40,
+            "w": 40,
+            "h": 40,
+            "count": 1,
+            "speed": 0.0
+        },
+        "Explosion_Ship":{
+            "texture":"spaceship",
+            "x": 0,
+            "y": 0,
+            "w": 192,
+            "h": 192,
+            "count": 64,
+            "speed": 0.5
+        }
+    },
+    "Entities":{
+        "Player":{
+            "animations":["Player", "Player_Go"],
+            "radius": 20.0
+        },
+        "Asteroid":{
+            "animations":["Rock", "Rock_Small"],
+            "radius": 25.0
+        },
+        "Explosion":{
+            "animations":["Explosion"],
+            "radius": 1.0
+        },
+        "Explosion_Ship":{
+            "animations":["Explosion_Ship"],
+            "radius": 1.0
+        }
+    }
+}
