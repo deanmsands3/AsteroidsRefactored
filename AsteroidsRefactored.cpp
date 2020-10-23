@@ -11,8 +11,13 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
-using namespace sf;
+#include <unordered_map>
+#include <nlohmann/json.hpp>
+#include <fstream>
+#include <iostream>
 
+using namespace sf;
+using json = nlohmann::json;
 
 int main()
 {
@@ -20,7 +25,22 @@ int main()
 
 	RenderWindow app(VideoMode(W, H), "Asteroids!");
 	app.setFramerateLimit(60);
-
+    json index;
+	{
+        std::ifstream index_file("index.json");
+		index_file>>index;
+	}
+    std::unordered_map<std::string, sf::Texture> textures;
+    {
+        auto index_textures = index["Textures"];
+        for(auto& [key, value]: index_textures.items() ){
+            auto file_name = value.get<std::string>();
+            std::cout << key << ":" << file_name << std::endl;
+            sf::Texture t;
+            t.loadFromFile(file_name);
+            textures[key] = t;
+        }
+    }
 	Texture t1,t2,t3,t4,t5,t6,t7;
 	t1.loadFromFile("images/spaceship.png");
 	t2.loadFromFile("images/background.jpg");
@@ -33,7 +53,25 @@ int main()
 	t1.setSmooth(true);
 	t2.setSmooth(true);
 
-	Sprite background(t2);
+	//Sprite background(t2);
+    Sprite background(textures["background"]);
+
+    std::unordered_map<std::string, Animation> animations;
+    {
+        auto index_animations = index["Animations"];
+        for(auto& [key, value]: index_animations.items() ){
+            auto texture_name = value["texture"].get<std::string>();
+            auto t = textures[texture_name];
+            auto x = value["x"].get<unsigned int>();
+            auto y = value["y"].get<unsigned int>();
+            auto w = value["w"].get<unsigned int>();
+            auto h = value["h"].get<unsigned int>();
+            auto frame_count = value["count"].get<unsigned int>();
+            auto speed = value["speed"].get<float>();
+            Animation anim(t,x,y,w,h,frame_count, speed);
+            animations[key] = anim;
+        }
+    }
 
 	Animation sExplosion(t3, 0,0,256,256, 48, 0.5);
 	Animation sRock(t4, 0,0,64,64, 16, 0.2);
