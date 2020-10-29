@@ -1,8 +1,16 @@
+# Eclipse Project files
 .project
 .cproject
-build/
+
+# JetBrains IDEa folder
 .idea/
+
+# Build folders 
+build/
 cmake-build-debug/
+
+# Compiled binaries
+AsteroidsRefactored
 *.o
 *.obj
 *.exe
