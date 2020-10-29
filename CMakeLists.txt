@@ -11,6 +11,8 @@ find_package(nlohmann_json 3.2.0 REQUIRED)
 set(
 	ASTEROID_SOURCES
 	AsteroidsRefactored.cpp
+	AsteroidsGame.cpp
+	Game.cpp
 	Player.cpp
 	Bullet.cpp
 	Asteroid.cpp
