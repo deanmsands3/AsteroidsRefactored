@@ -1,6 +1,8 @@
 .project
 .cproject
 build/
+.idea/
+cmake-build-debug/
 *.o
 *.obj
 *.exe
@@ -8,3 +10,4 @@ build/
 *.dll
 *.ilk
 *.pdb
+

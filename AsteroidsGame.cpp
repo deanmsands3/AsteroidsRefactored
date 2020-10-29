@@ -163,10 +163,10 @@ void AsteroidsGame::draw(){
 
 
 void AsteroidsGame::addPlayer(unsigned x, unsigned y){
-	std::shared_ptr <Player> player = std::make_shared <Player>();
-	player->settings(sPlayer, x, y, 0, 20);
-	unsigned long long id = (unsigned long long)player.get();
-	addEntity(id, player);
+	_player = std::make_shared <Player>();
+	_player->settings(sPlayer, x, y, 0, 20);
+	unsigned long long id = (unsigned long long)_player.get();
+	addEntity(id, _player);
 }
 
 void AsteroidsGame::addBigAsteroid(unsigned x, unsigned y){
