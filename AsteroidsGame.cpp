@@ -1,8 +1,11 @@
 #include "AsteroidsGame.h"
+#include <iostream>
 
 AsteroidsGame::AsteroidsGame(const std::string &json_file):Game(json_file) {
+	//std::cout<<"Entering AsteroidsGame"<<std::endl;
 	//Sprite background(t2);
-    background=sf::Sprite(getTexture("background"));
+    //background=sf::Sprite(getTexture("background"));
+    background.setTexture(getTexture("background"));
 	t1.loadFromFile("images/spaceship.png");
 	t2.loadFromFile("images/background.jpg");
 	t3.loadFromFile("images/explosions/type_C.png");
@@ -22,15 +25,19 @@ AsteroidsGame::AsteroidsGame(const std::string &json_file):Game(json_file) {
 	sPlayer_go=Animation(t1, 40,40,40,40, 1, 0);
 	sExplosion_ship=Animation(t7, 0,0,192,192, 64, 0.5);
 
+	//std::cout<<"Leaving AsteroidsGame"<<std::endl;
 }
 
 AsteroidsGame::~AsteroidsGame() {
 }
 
 void AsteroidsGame::play() {
+	//std::cout<<"Entering AsteroidsGame::play"<<std::endl;
 	setup();
 	loop();
 	cleanup();
+	//std::cout<<"Leaving AsteroidsGame::play"<<std::endl;
+
 }
 
 void AsteroidsGame::innerLoop() {
@@ -39,7 +46,6 @@ void AsteroidsGame::innerLoop() {
 	updateEntities();
 	cleanupEntities();
 	draw();
-
 }
 
 void AsteroidsGame::handleInput() {
@@ -115,11 +121,11 @@ void AsteroidsGame::gameLogic() {
 }
 
 void AsteroidsGame::updateEntities() {
-	for(auto i=_entities.begin();i!=_entities.end();){
-		std::shared_ptr <Entity> e = i->second;
+	for(auto ent:_entities){
+		std::shared_ptr <Entity> entity = ent.second;
 
-		e->update();
-		e->anim.update();
+		entity->update();
+		entity->anim.update();
 	}
 }
 

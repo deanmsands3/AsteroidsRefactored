@@ -14,6 +14,7 @@ using json = nlohmann::json;
 
 Game::Game(const std::string &json_file):_window(sf::VideoMode(W, H), "Asteroids!")
 {
+	//std::cout<<"Entering Game constructor."<<std::endl;
 	std::srand(std::time(0));
 
 	_window.setFramerateLimit(60);
@@ -22,7 +23,7 @@ Game::Game(const std::string &json_file):_window(sf::VideoMode(W, H), "Asteroids
 	loadAnimations(index);
 
 
-
+	//std::cout<<"Leaving Game constructor."<<std::endl;
 
 }
 
@@ -126,11 +127,11 @@ void Game::draw(){
 }
 
 void Game::updateEntities(){
-	for(auto i=_entities.begin();i!=_entities.end();){
-		std::shared_ptr <Entity> e = i->second;
+	for(auto ent:_entities){
+		std::shared_ptr <Entity> entity = ent.second;
 
-		e->update();
-		e->anim.update();
+		entity->update();
+		entity->anim.update();
 	}
 }
 
