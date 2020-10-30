@@ -5,7 +5,6 @@ AsteroidsGame::AsteroidsGame(const std::string &json_file):Game(json_file) {
 	//std::cout<<"Entering AsteroidsGame"<<std::endl;
 	//Sprite background(t2);
     //background=sf::Sprite(getTexture("background"));
-    background.setTexture(getTexture("background"));
 	t1.loadFromFile("images/spaceship.png");
 	t2.loadFromFile("images/background.jpg");
 	t3.loadFromFile("images/explosions/type_C.png");
@@ -16,6 +15,7 @@ AsteroidsGame::AsteroidsGame(const std::string &json_file):Game(json_file) {
 
 	t1.setSmooth(true);
 	t2.setSmooth(true);
+    background.setTexture(t2);
 
 	sExplosion=Animation(t3, 0,0,256,256, 48, 0.5);
 	sRock=Animation(t4, 0,0,64,64, 16, 0.2);
@@ -82,12 +82,11 @@ void AsteroidsGame::gameLogic() {
 				addExplosion(asteroid->x, asteroid->y);
 
 
-				if (asteroid->R==15) continue;
-				addSmallAsteroid(asteroid->x, asteroid->y);
-				addSmallAsteroid(asteroid->x, asteroid->y);
-
+				if (asteroid->R!=15){
+					addSmallAsteroid(asteroid->x, asteroid->y);
+					addSmallAsteroid(asteroid->x, asteroid->y);
+				}
 			}
-
 		}
 		if ( asteroid->collidesWith(*_player) )
 		{
@@ -136,26 +135,47 @@ void AsteroidsGame::cleanupEntities() {
 }
 
 void AsteroidsGame::cleanupAsteroids() {
-	for(auto i=_asteroids.begin();i!=_asteroids.end();){
-		std::shared_ptr <Asteroid> e = i->second;
-		if (e->isAlive()==false) {delAsteroid(i->first);}
-		else i++;
+	//std::cout<<"cleaning up asteroids"<<std::endl;
+	std::vector<unsigned long long> ids;
+	for(auto iter:_asteroids){
+		std::shared_ptr <Asteroid> ast = iter.second;
+		if (ast->isAlive()==false) {
+			auto id = iter.first;
+			ids.push_back(id);
+		}
+	}
+	for(auto id:ids){
+		delAsteroid(id);
 	}
 }
 
 void AsteroidsGame::cleanupBullets() {
-	for(auto i=_bullets.begin();i!=_bullets.end();){
-		std::shared_ptr <Bullet> e = i->second;
-		if (e->isAlive()==false) {delBullet(i->first);}
-		else i++;
+	//std::cout<<"cleaning up bullets"<<std::endl;
+	std::vector<unsigned long long> ids;
+	for(auto iter:_bullets){
+		std::shared_ptr <Bullet> bull = iter.second;
+		if (bull->isAlive()==false) {
+			auto id = iter.first;
+			ids.push_back(id);
+		}
+	}
+	for(auto id:ids){
+		delBullet(id);
 	}
 }
 
 void AsteroidsGame::cleanupExplosions() {
-	for(auto i=_explosions.begin();i!=_explosions.end();){
-		std::shared_ptr <Explosion> e = i->second;
-		if (e->isAlive()==false) {delExplosion(i->first);}
-		else i++;
+	//std::cout<<"cleaning up explosions"<<std::endl;
+	std::vector<unsigned long long> ids;
+	for(auto iter:_explosions){
+		std::shared_ptr <Explosion> e = iter.second;
+		auto id = iter.first;
+		if (e->isAlive()==false) {
+			ids.push_back(id);
+		}
+	}
+	for(auto id:ids){
+		delExplosion(id);
 	}
 }
 
@@ -182,7 +202,7 @@ void AsteroidsGame::addBigAsteroid(unsigned x, unsigned y){
 }
 void AsteroidsGame::addSmallAsteroid(unsigned x, unsigned y) {
 	std::shared_ptr<Asteroid> a = std::make_shared<Asteroid>();
-	a->settings(sRock, x, y, rand()%360, 25.0);
+	a->settings(sRock_small, x, y, rand()%360, 15.0);
 	addAsteroid(a);
 }
 
